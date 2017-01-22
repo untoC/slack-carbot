@@ -1,0 +1,11 @@
+{
+  "name": "slack_carbot",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "slack-client": "^2.0.6"
+  }
+}
