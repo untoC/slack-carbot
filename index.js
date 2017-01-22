@@ -16,7 +16,7 @@ rtm.on(RTM_EVENTS.MESSAGE, function (message) {
   if (message.bot_id) return;
 
   if (contains(text, 'left')) {
-    postSlackMessage(channel, 'Bye Bye ~ ' + getTagString(user));
+    postSlackMessage(channel, 'Bye Bye ~ ' + text.extractUserTag());
   } else if (contains(text, 'joined')) {
     postSlackMessage(channel, text.extractUserTag() + '님, 웰컴~ 아무 사람이나 이미지 클릭해보면 자기소개(?) 비스무리한게 적혀있는데 자기 프로필 what do i에 작성해주면 감사 ㅋㅋ');
   } else if (contains(text, 'hello jarvis')) {
