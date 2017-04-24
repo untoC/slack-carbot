@@ -21,7 +21,7 @@ rtm.on(RTM_EVENTS.MESSAGE, function (message) {
     postSlackMessage(channel, 'Bye Bye ~ ' + user.createUserTag());
   } else if (contains(text, 'joined')) {
     postSlackMessage(channel, user.createUserTag() + ' 님, 웰컴~ 아무 사람이나 이미지 클릭해보면 자기소개(?) 비스무리한게 적혀있는데 자기 프로필 what do i에 작성해주면 감사 ㅋㅋ');
-  } else if (contains(text, 'hello jarvis')) {
+  } else if (contains(text, 'hello carbot')) {
     postSlackMessage(channel, 'hello! ' + user.createUserTag());
   } else if (contains(text, "할까말까")) {
     var result = Math.floor(Math.random() * 10) % 2;
