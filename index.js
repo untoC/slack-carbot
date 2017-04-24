@@ -38,7 +38,7 @@ String.prototype.createUserTag = function () {
 };
 
 function postSlackMessage(channel, msg) {
-  web.chat.postMessage(channel, msg, {username: "jarvis"});
+  web.chat.postMessage(channel, msg);
 }
 
 function contains(ori, compare) {
