@@ -18,32 +18,23 @@ rtm.on(RTM_EVENTS.MESSAGE, function (message) {
   console.log(message);
 
   if (contains(text, 'left')) {
-    postSlackMessage(channel, 'Bye Bye ~ ' + text.extractUserTag());
+    postSlackMessage(channel, 'Bye Bye ~ ' + user.createUserTag());
   } else if (contains(text, 'joined')) {
-    postSlackMessage(channel, '<@' + user + '> 님, 웰컴~ 아무 사람이나 이미지 클릭해보면 자기소개(?) 비스무리한게 적혀있는데 자기 프로필 what do i에 작성해주면 감사 ㅋㅋ');
+    postSlackMessage(channel, user.createUserTag() + ' 님, 웰컴~ 아무 사람이나 이미지 클릭해보면 자기소개(?) 비스무리한게 적혀있는데 자기 프로필 what do i에 작성해주면 감사 ㅋㅋ');
   } else if (contains(text, 'hello jarvis')) {
-    postSlackMessage(channel, 'hello! ' + text.extractUserTag());
+    postSlackMessage(channel, 'hello! ' + user.createUserTag());
+  } else if (contains(text, "할까말까")) {
+    var result = Math.floor(Math.random() * 10) % 2;
+    if (result == 0) {
+      postSlackMessage(channel, '해라 ' + user.createUserTag());
+    } else {
+      postSlackMessage(channel, '치아라 ' + user.createUserTag());
+    }
   }
 });
 
-String.prototype.extractUserTag = function () {
-  var pattern = /<@[\w]*>/gi;
-  var matched = this.match(pattern);
-  var str = '';
-
-  if (!matched || !matched.length) {
-  	return str;
-  } 
-
-  for (var i = 0, li = matched.length; i < li; i++) {
-    str += matched[i];
-
-    if (i + 1 < li) {
-      str += ', ';
-    }
-  }
-
-  return str;
+String.prototype.createUserTag = function () {
+  return '<@' + this + '>';
 };
 
 function postSlackMessage(channel, msg) {
