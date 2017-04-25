@@ -1,46 +1,45 @@
-var RtmClient = require('slack-client').RtmClient
-  , WebClient = require('slack-client').WebClient
+var Botkit = require('botkit')
+  , controller = Botkit.slackbot()
   , config = require('./config')
-  , token = config.slack_token;
+  , bot = controller.spawn({token: config.slack_token});
 
-var web = new WebClient(token);
-var rtm = new RtmClient(token, {logLevel: 'error'});
-rtm.start();
+bot.startRTM(function(err, bot, payload) { 
+  if (err) {
+    throw new Error('Could not connect to Slack'); 
+  } 
+}); 
 
-var RTM_EVENTS = require('slack-client').RTM_EVENTS;
-rtm.on(RTM_EVENTS.MESSAGE, function (message) {
-  var channel = message.channel
-    , user = message.user
-    , text = message.text;
+controller.on('bot_channel_join', function(bot, message) {
+  console.log("bot_channel_join");
+});
 
-  if (message.bot_id) return;
+controller.on('user_channel_join', function(bot, message) {
+  bot.reply(message, message.user.createUserTag() + ', 웰컴~ 아무 사람이나 이미지 클릭해보면 자기소개(?) 비스무리한게 적혀있는데 자기 프로필 what do i에 작성해주면 감사 ㅋㅋ');
+});
 
-  console.log(message);
+controller.on('channel_leave', function(bot, message) {
+  bot.reply(message, message.user.createUserTag() + ', 어디가노?');
+});
 
-  if (contains(text, 'left')) {
-    postSlackMessage(channel, 'Bye Bye ~ ' + user.createUserTag());
-  } else if (contains(text, 'joined')) {
-    postSlackMessage(channel, user.createUserTag() + ' 님, 웰컴~ 아무 사람이나 이미지 클릭해보면 자기소개(?) 비스무리한게 적혀있는데 자기 프로필 what do i에 작성해주면 감사 ㅋㅋ');
-  } else if (contains(text, 'hello carbot')) {
-    postSlackMessage(channel, 'hello! ' + user.createUserTag());
-  } else if (contains(text, "할까말까")) {
-    var result = Math.floor(Math.random() * 10) % 2;
-    if (result == 0) {
-      postSlackMessage(channel, '해라 ' + user.createUserTag());
-    } else {
-      postSlackMessage(channel, '치아라 ' + user.createUserTag());
-    }
+controller.hears(["안녕","안녕하세요", "하이"], ["direct_message","direct_mention","mention","ambient"], function(bot, message) { 
+  bot.reply(message, '오냐, 밥뭇나?'); 
+});
+
+controller.hears(["할까말까"], ["direct_message","direct_mention","mention","ambient"], function(bot, message) { 
+  var result = Math.floor(Math.random() * 10) % 2;
+  if (result == 0) {
+    bot.reply(message, '해라 ' + message.user.createUserTag());
+  } else {
+  	bot.reply(message, '치아라 ' + message.user.createUserTag());
   }
+});
+
+controller.hears('','direct_message, direct_mention, mention', function(bot, message) {  
+  console.log('all_message');
+  console.log(message);
+  // bot.reply(message, "I'm here!")
 });
 
 String.prototype.createUserTag = function () {
   return '<@' + this + '>';
 };
-
-function postSlackMessage(channel, msg) {
-  web.chat.postMessage(channel, msg);
-}
-
-function contains(ori, compare) {
-  return ori.toLowerCase().indexOf(compare) > -1;
-}
