@@ -69,9 +69,8 @@ var decision = {
 		{ keyword: /괜찮겠어\?\S*$/, behavior: 'pickOne', parameter: ['괜찮아', '별로야', '콜', 'ㄴㄴ', '괜찮!', '안괜찮'] },
 		{ keyword: /괜찮을까\?\S*$/, behavior: 'pickOne', parameter: ['괜찮아', '별로야', '콜', 'ㄴㄴ', '괜찮!', '안괜찮']},
 
-		{ keyword: /김결정/, behavior: 'fallback' },
-		{ keyword: /결정아/, behavior: 'fallback' },
-		{ keyword: /결정이/, behavior: 'fallback' }
+		{ keyword: /carbot/, behavior: 'fallback' },
+		{ keyword: /카봇/, behavior: 'fallback' },
 	],
 	irregularTable : [
 		/* ..하다 */
