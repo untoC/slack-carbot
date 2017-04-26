@@ -1,7 +1,8 @@
 var Botkit = require('botkit')
   , controller = Botkit.slackbot()
   , config = require('./config')
-  , bot = controller.spawn({token: config.slack_token});
+  , bot = controller.spawn({token: config.slack_token})
+  , decision = require('./decision.js');
 
 bot.startRTM(function(err, bot, payload) { 
   if (err) {
@@ -25,12 +26,12 @@ controller.hears(["안녕","안녕하세요", "하이"], ["direct_message","dire
   bot.reply(message, '오냐, 밥뭇나?'); 
 });
 
-controller.hears(["할까말까"], ["direct_message","direct_mention","mention","ambient"], function(bot, message) { 
-  var result = Math.floor(Math.random() * 10) % 2;
-  if (result == 0) {
-    bot.reply(message, '해라 ' + message.user.createUserTag());
-  } else {
-  	bot.reply(message, '치아라 ' + message.user.createUserTag());
+controller.on('ambient', function(bot, message){
+  var text = message.text;
+  var response = decision.checkKeywordAndGetResponse(text);
+
+  if(response != null) {
+    bot.reply(message, response);	
   }
 });
 
