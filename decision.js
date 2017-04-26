@@ -51,6 +51,7 @@ var decision = {
 		{ keyword: /(\S+)도\s?되나\?/, behavior: 'pickOne', parameter: ['돼', '안 돼', '$도 돼', '$면 안 되지', '$든지', 'ㄴㄴ'] },
 		{ keyword: /(\S+)도\s?되냐\?/, behavior: 'pickOne', parameter: ['돼', '안 돼', '$도 돼', '$면 안 되지', '$든지', 'ㄴㄴ'] },
 		{ keyword: /(\S+)도\s?될까\?/, behavior: 'pickOne', parameter: ['돼', '안 돼', '$도 돼', '$면 안 되지', '$든지', 'ㄴㄴ'] },
+		{ keyword: /(\S+)가겠나\?/, behavior: 'pickOne', parameter: ['아니', '못가', '$가도 돼', '$가면 안 되지', '$가든지', 'ㄴㄴ'] },
 
 		{ keyword: /콜\?\S*$/, behavior: 'pickOne', parameter: ['콜', '노콜', '콜', 'ㄴㄴ', '완전콜', '별로..'] },
 		{ keyword: /어때\?\S*$/, behavior: 'pickOne', parameter: ['굳', '노굳', '괜찮네', 'ㄴㄴ', '좋으다', '그닥..'] },
